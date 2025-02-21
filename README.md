@@ -1,3 +1,7 @@
+# Grant the Docker container access to your host's X server:
+
+xhost +local:docker
+
 ## Build and run:
 
 docker build -t ros2-humble-container .
