@@ -23,5 +23,19 @@ ENV SHELL=/bin/bash
 # Source ROS in bashrc (persists across container runs)
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
-    echo "echo 'ROS Humble environment ready!'" >> ~/.bashrc
+    echo "neofetch" >> ~/.bashrc && \
+    echo "echo 'ROS Humble environment ready!'" >> ~/.bashrc && \
+    echo "export WEBOTS_HOME=/usr/local/webots" >> ~/.bashrc && \
+    sudo apt update && \
+    sudo apt upgrade -y && \
+    sudo apt install -y neofetch neovim btop wget && \
+    sudo mkdir -p /etc/apt/keyrings && \
+    cd /etc/apt/keyrings && \
+    sudo wget -q https://cyberbotics.com/Cyberbotics.asc && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
+    sudo apt update && \
+    cd /home/hostuser/ros && \
+    sudo apt install -y ros-humble-webots-ros2 && \
+    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y && \
+    sudo apt install -y webots
 
