@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<robot name="omni_1" xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!-- BASE LINK (CYLINDER) -->
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.11" length="0.064"/>  <!-- 220mm dia, 64mm height -->
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>  <!-- Opaque white -->
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.11" length="0.064"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+
+  <!-- OMNI WHEEL MACRO -->
+  <xacro:macro name="omni_wheel" params="name x y angle">
+    <link name="${name}">
+      <visual>
+        <origin rpy="0 1.5708 0" xyz="0 0 0"/>  <!-- Fixed wheel rotation -->
+        <geometry>
+          <cylinder radius="0.04" length="0.02"/>  <!-- 80mm dia, 20mm thick -->
+        </geometry>
+        <material name="copper">
+          <color rgba="0.72 0.45 0.20 1"/>  <!-- Brown/Copper -->
+        </material>
+      </visual>
+
+      <!-- 8 ROLLERS, POSITION ROTATED AROUND WHEEL'S GREEN AXIS -->
+      <visual>
+        <origin xyz="0 0.0283 0.0283" rpy="0 0 0"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+      <visual>
+        <origin xyz="0 0.04 0" rpy="0 0 0.7854"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+      <visual>
+        <origin xyz="0 -0.0283 0.0283" rpy="0 0 1.5708"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+      <visual>
+        <origin xyz="0 -0.04 0" rpy="0 0 2.3562"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+      <visual>
+        <origin xyz="0 -0.0283 -0.0283" rpy="0 0 3.1416"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+      <visual>
+        <origin xyz="0 0 -0.04" rpy="0 0 3.927"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+      <visual>
+        <origin xyz="0 0.0283 -0.0283" rpy="0 0 4.7124"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+      <visual>
+        <origin xyz="0 0.04 0" rpy="0 0 5.4978"/>
+        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <material name="black"/>
+      </visual>
+
+      <collision>
+        <geometry>
+          <cylinder radius="0.04" length="0.02"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.15"/>
+        <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
+      </inertial>
+    </link>
+
+    <!-- CORRECT WHEEL ORIENTATION -->
+    <joint name="${name}_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${name}"/>
+      <origin xyz="${x} ${y} -0.02" rpy="0 0 ${angle}"/>
+      <axis xyz="1 0 0"/>  <!-- Fixed to proper rotation axis -->
+    </joint>
+  </xacro:macro>
+
+  <!-- THREE WHEELS AT 120° INTERVALS -->
+  <xacro:omni_wheel name="wheel_0" x="0.13" y="0" angle="0"/>         <!-- 0° -->
+  <xacro:omni_wheel name="wheel_120" x="-0.065" y="0.11258" angle="2.0944"/>  <!-- 120° -->
+  <xacro:omni_wheel name="wheel_240" x="-0.065" y="-0.11258" angle="-2.0944"/> <!-- 240° -->
+
+</robot>

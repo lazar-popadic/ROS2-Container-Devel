@@ -35,7 +35,7 @@ RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
     sudo apt update && \
     cd /home/hostuser/ros && \
-    sudo apt install -y ros-humble-webots-ros2 && \
+    sudo apt install -y ros-humble-webots-ros2 ros-humble-urdf-tutorial && \
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y && \
     sudo apt install -y webots
 
