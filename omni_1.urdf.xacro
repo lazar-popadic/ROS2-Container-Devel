@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <robot name="omni_1" xmlns:xacro="http://wiki.ros.org/xacro">
 
+  <!-- MATERIAL DEFINITIONS -->
+  <material name="white">
+    <color rgba="1 1 1 1"/>  <!-- White -->
+  </material>
+  <material name="copper">
+    <color rgba="0.72 0.45 0.20 1"/>  <!-- Copper -->
+  </material>
+
   <!-- BASE LINK (CYLINDER) -->
   <link name="base_link">
     <visual>
@@ -8,9 +16,7 @@
       <geometry>
         <cylinder radius="0.11" length="0.064"/>  <!-- 220mm dia, 64mm height -->
       </geometry>
-      <material name="white">
-        <color rgba="1 1 1 1"/>
-      </material>
+      <material name="white"/>
     </visual>
     <collision>
       <geometry>
@@ -31,9 +37,7 @@
         <geometry>
           <cylinder radius="0.04" length="0.02"/>  <!-- 80mm dia, 20mm thick -->
         </geometry>
-        <material name="copper">
-          <color rgba="0.72 0.45 0.20 1"/>
-        </material>
+        <material name="copper"/>
       </visual>
 
       <!-- 8 ROLLERS, TANGENTIAL TO WHEEL -->
@@ -45,56 +49,56 @@
       <visual>
         <origin xyz="0 ${wheel_radius} 0" rpy="0 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
       
       <!-- Roller 2: 45° -->
       <visual>
         <origin xyz="0 ${wheel_radius*cos(0.7854)} ${wheel_radius*sin(0.7854)}" rpy="0.7854 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
       
       <!-- Roller 3: 90° -->
       <visual>
         <origin xyz="0 0 ${wheel_radius}" rpy="1.5708 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
       
       <!-- Roller 4: 135° -->
       <visual>
         <origin xyz="0 ${-wheel_radius*cos(0.7854)} ${wheel_radius*sin(0.7854)}" rpy="2.3562 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
       
       <!-- Roller 5: 180° -->
       <visual>
         <origin xyz="0 ${-wheel_radius} 0" rpy="3.1416 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
       
       <!-- Roller 6: 225° -->
       <visual>
         <origin xyz="0 ${-wheel_radius*cos(0.7854)} ${-wheel_radius*sin(0.7854)}" rpy="3.927 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
       
       <!-- Roller 7: 270° -->
       <visual>
         <origin xyz="0 0 ${-wheel_radius}" rpy="4.7124 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
       
       <!-- Roller 8: 315° -->
       <visual>
         <origin xyz="0 ${wheel_radius*cos(0.7854)} ${-wheel_radius*sin(0.7854)}" rpy="5.4978 0 0"/>
         <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="black"/>
+        <material name="white"/>  <!-- Explicitly set to white -->
       </visual>
 
       <collision>
