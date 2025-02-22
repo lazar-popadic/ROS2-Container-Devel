@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="omni_1" xmlns:xacro="http://wiki.ros.org/xacro">
+<robot name="omni_robot" xmlns:xacro="http://wiki.ros.org/xacro">
 
   <!-- MATERIAL DEFINITIONS -->
   <material name="white">
@@ -31,6 +31,7 @@
 
   <!-- OMNI WHEEL MACRO -->
   <xacro:macro name="omni_wheel" params="name x y angle">
+    <!-- Main Wheel -->
     <link name="${name}">
       <visual>
         <origin rpy="0 1.5708 0" xyz="0 0 0"/>  <!-- Wheel rotation -->
@@ -39,68 +40,6 @@
         </geometry>
         <material name="copper"/>
       </visual>
-
-      <!-- 8 ROLLERS, TANGENTIAL TO WHEEL -->
-      <xacro:property name="roller_radius" value="0.005"/>
-      <xacro:property name="roller_length" value="0.02"/>
-      <xacro:property name="wheel_radius" value="0.04"/>
-      
-      <!-- Roller 1: 0° -->
-      <visual>
-        <origin xyz="0 ${wheel_radius} 0" rpy="0 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-      
-      <!-- Roller 2: 45° -->
-      <visual>
-        <origin xyz="0 ${wheel_radius*cos(0.7854)} ${wheel_radius*sin(0.7854)}" rpy="0.7854 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-      
-      <!-- Roller 3: 90° -->
-      <visual>
-        <origin xyz="0 0 ${wheel_radius}" rpy="1.5708 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-      
-      <!-- Roller 4: 135° -->
-      <visual>
-        <origin xyz="0 ${-wheel_radius*cos(0.7854)} ${wheel_radius*sin(0.7854)}" rpy="2.3562 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-      
-      <!-- Roller 5: 180° -->
-      <visual>
-        <origin xyz="0 ${-wheel_radius} 0" rpy="3.1416 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-      
-      <!-- Roller 6: 225° -->
-      <visual>
-        <origin xyz="0 ${-wheel_radius*cos(0.7854)} ${-wheel_radius*sin(0.7854)}" rpy="3.927 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-      
-      <!-- Roller 7: 270° -->
-      <visual>
-        <origin xyz="0 0 ${-wheel_radius}" rpy="4.7124 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-      
-      <!-- Roller 8: 315° -->
-      <visual>
-        <origin xyz="0 ${wheel_radius*cos(0.7854)} ${-wheel_radius*sin(0.7854)}" rpy="5.4978 0 0"/>
-        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
-        <material name="white"/>  <!-- Explicitly set to white -->
-      </visual>
-
       <collision>
         <geometry>
           <cylinder radius="0.04" length="0.02"/>
@@ -112,12 +51,243 @@
       </inertial>
     </link>
 
-    <!-- WHEEL ORIENTATION -->
+    <!-- Joint to Base -->
     <joint name="${name}_joint" type="continuous">
       <parent link="base_link"/>
       <child link="${name}"/>
       <origin xyz="${x} ${y} -0.02" rpy="0 0 ${angle}"/>
       <axis xyz="1 0 0"/>
+      <limit effort="10.0" velocity="10.0"/>
+      <dynamics damping="0.1" friction="0.01"/>
+    </joint>
+
+    <!-- Rollers -->
+    <xacro:property name="roller_radius" value="0.005"/>
+    <xacro:property name="roller_length" value="0.02"/>
+    <xacro:property name="wheel_radius" value="0.04"/>
+
+    <!-- Roller 1: 0° -->
+    <link name="${name}_roller_0">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_0_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_0"/>
+      <origin xyz="0 ${wheel_radius} 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>  <!-- Roller spins around its own axis -->
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
+    </joint>
+
+    <!-- Roller 2: 45° -->
+    <link name="${name}_roller_45">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_45_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_45"/>
+      <origin xyz="0 ${wheel_radius * 0.7071} ${wheel_radius * 0.7071}" rpy="0.7854 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
+    </joint>
+
+    <!-- Roller 3: 90° -->
+    <link name="${name}_roller_90">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_90_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_90"/>
+      <origin xyz="0 0 ${wheel_radius}" rpy="1.5708 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
+    </joint>
+
+    <!-- Roller 4: 135° -->
+    <link name="${name}_roller_135">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_135_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_135"/>
+      <origin xyz="0 ${-wheel_radius * 0.7071} ${wheel_radius * 0.7071}" rpy="2.3562 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
+    </joint>
+
+    <!-- Roller 5: 180° -->
+    <link name="${name}_roller_180">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_180_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_180"/>
+      <origin xyz="0 ${-wheel_radius} 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
+    </joint>
+
+    <!-- Roller 6: 225° -->
+    <link name="${name}_roller_225">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_225_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_225"/>
+      <origin xyz="0 ${-wheel_radius * 0.7071} ${-wheel_radius * 0.7071}" rpy="0.7854 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
+    </joint>
+
+    <!-- Roller 7: 270° -->
+    <link name="${name}_roller_270">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_270_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_270"/>
+      <origin xyz="0 0 ${-wheel_radius}" rpy="1.5708 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
+    </joint>
+
+    <!-- Roller 8: 315° -->
+    <link name="${name}_roller_315">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${roller_radius}" length="${roller_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001"/>
+      </inertial>
+    </link>
+    <joint name="${name}_roller_315_joint" type="continuous">
+      <parent link="${name}"/>
+      <child link="${name}_roller_315"/>
+      <origin xyz="0 ${wheel_radius * 0.7071} ${-wheel_radius * 0.7071}" rpy="2.3562 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="0.0" velocity="0.0"/>
+      <dynamics damping="0.01" friction="0.01"/>
     </joint>
   </xacro:macro>
 
@@ -125,5 +295,12 @@
   <xacro:omni_wheel name="wheel_0" x="0.13" y="0" angle="0"/>         <!-- 0° -->
   <xacro:omni_wheel name="wheel_120" x="-0.065" y="0.11258" angle="2.0944"/>  <!-- 120° -->
   <xacro:omni_wheel name="wheel_240" x="-0.065" y="-0.11258" angle="-2.0944"/> <!-- 240° -->
+
+  <!-- WEBOTS SPECIFIC TAGS -->
+  <webots>
+    <device reference="wheel_0_joint" type="RotationalMotor"/>
+    <device reference="wheel_120_joint" type="RotationalMotor"/>
+    <device reference="wheel_240_joint" type="RotationalMotor"/>
+  </webots>
 
 </robot>
