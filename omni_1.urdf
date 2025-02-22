@@ -14,7 +14,6 @@
       </geometry>
       <material name="white">
         <color rgba="1 1 1 1"/>
-        <!-- Opaque white -->
       </material>
     </visual>
     <collision>
@@ -30,72 +29,86 @@
   <link name="wheel_0">
     <visual>
       <origin rpy="0 1.5708 0" xyz="0 0 0"/>
-      <!-- Fixed wheel rotation -->
+      <!-- Wheel rotation -->
       <geometry>
         <cylinder length="0.02" radius="0.04"/>
         <!-- 80mm dia, 20mm thick -->
       </geometry>
       <material name="copper">
         <color rgba="0.72 0.45 0.20 1"/>
-        <!-- Brown/Copper -->
       </material>
     </visual>
-    <!-- 8 ROLLERS, POSITION ROTATED AROUND WHEEL'S GREEN AXIS -->
+    <!-- Roller 1: 0° -->
     <visual>
-      <origin rpy="0 0 0" xyz="0 0.0283 0.0283"/>
+      <origin rpy="0 0 0" xyz="0 0.045 0"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 2: 45° -->
     <visual>
-      <origin rpy="0 0 0.7854" xyz="0 0.04 0"/>
+      <origin rpy="0.7854 0 0" xyz="0 0.03181974671300563 0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 3: 90° -->
     <visual>
-      <origin rpy="0 0 1.5708" xyz="0 -0.0283 0.0283"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 0.045"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 4: 135° -->
     <visual>
-      <origin rpy="0 0 2.3562" xyz="0 -0.04 0"/>
+      <origin rpy="2.3562 0 0" xyz="0 -0.03181974671300563 0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 5: 180° -->
     <visual>
-      <origin rpy="0 0 3.1416" xyz="0 -0.0283 -0.0283"/>
+      <origin rpy="3.1416 0 0" xyz="0 -0.045 0"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 6: 225° -->
     <visual>
-      <origin rpy="0 0 3.927" xyz="0 0 -0.04"/>
+      <origin rpy="3.927 0 0" xyz="0 -0.03181974671300563 -0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 7: 270° -->
     <visual>
-      <origin rpy="0 0 4.7124" xyz="0 0.0283 -0.0283"/>
+      <origin rpy="4.7124 0 0" xyz="0 0 -0.045"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 8: 315° -->
     <visual>
-      <origin rpy="0 0 5.4978" xyz="0 0.04 0"/>
+      <origin rpy="5.4978 0 0" xyz="0 0.03181974671300563 -0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
     <collision>
       <geometry>
@@ -107,83 +120,96 @@
       <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
     </inertial>
   </link>
-  <!-- CORRECT WHEEL ORIENTATION -->
+  <!-- WHEEL ORIENTATION -->
   <joint name="wheel_0_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_0"/>
     <origin rpy="0 0 0" xyz="0.13 0 -0.02"/>
     <axis xyz="1 0 0"/>
-    <!-- Fixed to proper rotation axis -->
   </joint>
   <link name="wheel_120">
     <visual>
       <origin rpy="0 1.5708 0" xyz="0 0 0"/>
-      <!-- Fixed wheel rotation -->
+      <!-- Wheel rotation -->
       <geometry>
         <cylinder length="0.02" radius="0.04"/>
         <!-- 80mm dia, 20mm thick -->
       </geometry>
       <material name="copper">
         <color rgba="0.72 0.45 0.20 1"/>
-        <!-- Brown/Copper -->
       </material>
     </visual>
-    <!-- 8 ROLLERS, POSITION ROTATED AROUND WHEEL'S GREEN AXIS -->
+    <!-- Roller 1: 0° -->
     <visual>
-      <origin rpy="0 0 0" xyz="0 0.0283 0.0283"/>
+      <origin rpy="0 0 0" xyz="0 0.045 0"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 2: 45° -->
     <visual>
-      <origin rpy="0 0 0.7854" xyz="0 0.04 0"/>
+      <origin rpy="0.7854 0 0" xyz="0 0.03181974671300563 0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 3: 90° -->
     <visual>
-      <origin rpy="0 0 1.5708" xyz="0 -0.0283 0.0283"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 0.045"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 4: 135° -->
     <visual>
-      <origin rpy="0 0 2.3562" xyz="0 -0.04 0"/>
+      <origin rpy="2.3562 0 0" xyz="0 -0.03181974671300563 0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 5: 180° -->
     <visual>
-      <origin rpy="0 0 3.1416" xyz="0 -0.0283 -0.0283"/>
+      <origin rpy="3.1416 0 0" xyz="0 -0.045 0"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 6: 225° -->
     <visual>
-      <origin rpy="0 0 3.927" xyz="0 0 -0.04"/>
+      <origin rpy="3.927 0 0" xyz="0 -0.03181974671300563 -0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 7: 270° -->
     <visual>
-      <origin rpy="0 0 4.7124" xyz="0 0.0283 -0.0283"/>
+      <origin rpy="4.7124 0 0" xyz="0 0 -0.045"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 8: 315° -->
     <visual>
-      <origin rpy="0 0 5.4978" xyz="0 0.04 0"/>
+      <origin rpy="5.4978 0 0" xyz="0 0.03181974671300563 -0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
     <collision>
       <geometry>
@@ -195,83 +221,96 @@
       <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
     </inertial>
   </link>
-  <!-- CORRECT WHEEL ORIENTATION -->
+  <!-- WHEEL ORIENTATION -->
   <joint name="wheel_120_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_120"/>
     <origin rpy="0 0 2.0944" xyz="-0.065 0.11258 -0.02"/>
     <axis xyz="1 0 0"/>
-    <!-- Fixed to proper rotation axis -->
   </joint>
   <link name="wheel_240">
     <visual>
       <origin rpy="0 1.5708 0" xyz="0 0 0"/>
-      <!-- Fixed wheel rotation -->
+      <!-- Wheel rotation -->
       <geometry>
         <cylinder length="0.02" radius="0.04"/>
         <!-- 80mm dia, 20mm thick -->
       </geometry>
       <material name="copper">
         <color rgba="0.72 0.45 0.20 1"/>
-        <!-- Brown/Copper -->
       </material>
     </visual>
-    <!-- 8 ROLLERS, POSITION ROTATED AROUND WHEEL'S GREEN AXIS -->
+    <!-- Roller 1: 0° -->
     <visual>
-      <origin rpy="0 0 0" xyz="0 0.0283 0.0283"/>
+      <origin rpy="0 0 0" xyz="0 0.045 0"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 2: 45° -->
     <visual>
-      <origin rpy="0 0 0.7854" xyz="0 0.04 0"/>
+      <origin rpy="0.7854 0 0" xyz="0 0.03181974671300563 0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 3: 90° -->
     <visual>
-      <origin rpy="0 0 1.5708" xyz="0 -0.0283 0.0283"/>
+      <origin rpy="1.5708 0 0" xyz="0 0 0.045"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 4: 135° -->
     <visual>
-      <origin rpy="0 0 2.3562" xyz="0 -0.04 0"/>
+      <origin rpy="2.3562 0 0" xyz="0 -0.03181974671300563 0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 5: 180° -->
     <visual>
-      <origin rpy="0 0 3.1416" xyz="0 -0.0283 -0.0283"/>
+      <origin rpy="3.1416 0 0" xyz="0 -0.045 0"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 6: 225° -->
     <visual>
-      <origin rpy="0 0 3.927" xyz="0 0 -0.04"/>
+      <origin rpy="3.927 0 0" xyz="0 -0.03181974671300563 -0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 7: 270° -->
     <visual>
-      <origin rpy="0 0 4.7124" xyz="0 0.0283 -0.0283"/>
+      <origin rpy="4.7124 0 0" xyz="0 0 -0.045"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
+    <!-- Roller 8: 315° -->
     <visual>
-      <origin rpy="0 0 5.4978" xyz="0 0.04 0"/>
+      <origin rpy="5.4978 0 0" xyz="0 0.03181974671300563 -0.031819863593676306"/>
       <geometry>
-        <cylinder length="0.02" radius="0.005"/>
+        <cylinder length="0.032" radius="0.005"/>
       </geometry>
-      <material name="black"/>
+      <material name="white"/>
+      <color rgba="1 1 1 1"/>
     </visual>
     <collision>
       <geometry>
@@ -283,13 +322,12 @@
       <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
     </inertial>
   </link>
-  <!-- CORRECT WHEEL ORIENTATION -->
+  <!-- WHEEL ORIENTATION -->
   <joint name="wheel_240_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_240"/>
     <origin rpy="0 0 -2.0944" xyz="-0.065 -0.11258 -0.02"/>
     <axis xyz="1 0 0"/>
-    <!-- Fixed to proper rotation axis -->
   </joint>
   <!-- 240° -->
 </robot>

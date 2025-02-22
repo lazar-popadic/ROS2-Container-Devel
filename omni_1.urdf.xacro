@@ -9,7 +9,7 @@
         <cylinder radius="0.11" length="0.064"/>  <!-- 220mm dia, 64mm height -->
       </geometry>
       <material name="white">
-        <color rgba="1 1 1 1"/>  <!-- Opaque white -->
+        <color rgba="1 1 1 1"/>
       </material>
     </visual>
     <collision>
@@ -27,54 +27,73 @@
   <xacro:macro name="omni_wheel" params="name x y angle">
     <link name="${name}">
       <visual>
-        <origin rpy="0 1.5708 0" xyz="0 0 0"/>  <!-- Fixed wheel rotation -->
+        <origin rpy="0 1.5708 0" xyz="0 0 0"/>  <!-- Wheel rotation -->
         <geometry>
           <cylinder radius="0.04" length="0.02"/>  <!-- 80mm dia, 20mm thick -->
         </geometry>
         <material name="copper">
-          <color rgba="0.72 0.45 0.20 1"/>  <!-- Brown/Copper -->
+          <color rgba="0.72 0.45 0.20 1"/>
         </material>
       </visual>
 
-      <!-- 8 ROLLERS, POSITION ROTATED AROUND WHEEL'S GREEN AXIS -->
+      <!-- 8 ROLLERS, TANGENTIAL TO WHEEL -->
+      <xacro:property name="roller_radius" value="0.005"/>
+      <xacro:property name="roller_length" value="0.02"/>
+      <xacro:property name="wheel_radius" value="0.04"/>
+      
+      <!-- Roller 1: 0° -->
       <visual>
-        <origin xyz="0 0.0283 0.0283" rpy="0 0 0"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 ${wheel_radius} 0" rpy="0 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
+      
+      <!-- Roller 2: 45° -->
       <visual>
-        <origin xyz="0 0.04 0" rpy="0 0 0.7854"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 ${wheel_radius*cos(0.7854)} ${wheel_radius*sin(0.7854)}" rpy="0.7854 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
+      
+      <!-- Roller 3: 90° -->
       <visual>
-        <origin xyz="0 -0.0283 0.0283" rpy="0 0 1.5708"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 0 ${wheel_radius}" rpy="1.5708 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
+      
+      <!-- Roller 4: 135° -->
       <visual>
-        <origin xyz="0 -0.04 0" rpy="0 0 2.3562"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 ${-wheel_radius*cos(0.7854)} ${wheel_radius*sin(0.7854)}" rpy="2.3562 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
+      
+      <!-- Roller 5: 180° -->
       <visual>
-        <origin xyz="0 -0.0283 -0.0283" rpy="0 0 3.1416"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 ${-wheel_radius} 0" rpy="3.1416 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
+      
+      <!-- Roller 6: 225° -->
       <visual>
-        <origin xyz="0 0 -0.04" rpy="0 0 3.927"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 ${-wheel_radius*cos(0.7854)} ${-wheel_radius*sin(0.7854)}" rpy="3.927 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
+      
+      <!-- Roller 7: 270° -->
       <visual>
-        <origin xyz="0 0.0283 -0.0283" rpy="0 0 4.7124"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 0 ${-wheel_radius}" rpy="4.7124 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
+      
+      <!-- Roller 8: 315° -->
       <visual>
-        <origin xyz="0 0.04 0" rpy="0 0 5.4978"/>
-        <geometry><cylinder radius="0.005" length="0.02"/></geometry>
+        <origin xyz="0 ${wheel_radius*cos(0.7854)} ${-wheel_radius*sin(0.7854)}" rpy="5.4978 0 0"/>
+        <geometry><cylinder radius="${roller_radius}" length="${roller_length}"/></geometry>
         <material name="black"/>
       </visual>
 
@@ -89,12 +108,12 @@
       </inertial>
     </link>
 
-    <!-- CORRECT WHEEL ORIENTATION -->
+    <!-- WHEEL ORIENTATION -->
     <joint name="${name}_joint" type="continuous">
       <parent link="base_link"/>
       <child link="${name}"/>
       <origin xyz="${x} ${y} -0.02" rpy="0 0 ${angle}"/>
-      <axis xyz="1 0 0"/>  <!-- Fixed to proper rotation axis -->
+      <axis xyz="1 0 0"/>
     </joint>
   </xacro:macro>
 
