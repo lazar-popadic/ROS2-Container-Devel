@@ -23,6 +23,7 @@ ENV SHELL=/bin/bash
 # Source ROS in bashrc (persists across container runs)
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
+    echo "source /home/hostuser/ros/omni-1-ws/install/local_setup.bash" >> ~/.bashrc && \
     echo "neofetch" >> ~/.bashrc && \
     echo "echo 'ROS Humble environment ready!'" >> ~/.bashrc && \
     echo "export WEBOTS_HOME=/usr/local/webots" >> ~/.bashrc && \
@@ -38,4 +39,3 @@ RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     sudo apt install -y ros-humble-webots-ros2 ros-humble-urdf-tutorial && \
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y && \
     sudo apt install -y webots
-
