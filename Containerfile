@@ -1,5 +1,5 @@
 # Start from the official ROS Humble image
-FROM osrf/ros:humble-desktop
+FROM docker.io/osrf/ros:humble-desktop
 
 # Allow custom user/group IDs via build arguments
 ARG USER_ID=1000
@@ -12,20 +12,20 @@ RUN groupadd -g ${GROUP_ID} hostuser && \
     echo "hostuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/hostuser
 
 # Create persistent ROS workspace directory and set ownership
-RUN mkdir -p /home/hostuser/ros && \
+RUN mkdir -p /home/hostuser/code && \
     chown -R ${USER_ID}:${GROUP_ID} /home/hostuser
 
 # Configure environment for ROS
 USER hostuser
-WORKDIR /home/hostuser/ros
+WORKDIR /home/hostuser/code
 ENV SHELL=/bin/bash
 
 # Source ROS in bashrc (persists across container runs)
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
-    echo "source /home/hostuser/ros/omni-1-ws/install/local_setup.bash" >> ~/.bashrc && \
+    echo "source /home/hostuser/code/omni-1-ws/install/local_setup.bash" >> ~/.bashrc && \
     echo "neofetch" >> ~/.bashrc && \
-    echo "echo 'ROS Humble environment ready!'" >> ~/.bashrc && \
+    echo "echo 'ROS 2 Humble environment ready!'" >> ~/.bashrc && \
     echo "export WEBOTS_HOME=/usr/local/webots" >> ~/.bashrc && \
     sudo apt update && \
     sudo apt upgrade -y && \
@@ -35,7 +35,7 @@ RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     sudo wget -q https://cyberbotics.com/Cyberbotics.asc && \
     echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
     sudo apt update && \
-    cd /home/hostuser/ros && \
+    cd /home/hostuser/code && \
     sudo apt install -y ros-humble-webots-ros2 ros-humble-urdf-tutorial && \
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y && \
     sudo apt install -y webots
