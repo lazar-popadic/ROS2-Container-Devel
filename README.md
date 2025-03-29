@@ -7,3 +7,4 @@ podman run -it --rm -v ros2-volume:/home/hostuser --env="DISPLAY" --env="QT_X11_
 ### Container setup:
 
 generisi ssh kljuc i dodaj ga na svoj github nalog
+ukoliko ne postoji .bashrc u ~, napravi ga i dodaj ono sto se echo-uje u Containerfile-u
