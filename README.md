@@ -9,12 +9,16 @@ ros2-enter
 ### If you started the container outside an interactive shell, stop it by running:
 ros2-stop
 
+---
 
 ### In order to use git with ssh, you must generate a new ssh key:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-#### and add it to your account:
+### and add it to your account:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+### Clone the omni-1-ws repository:
+git clone git@github.com:lazar-popadic/omni-1-ws.git
 
+---
 
 #### When you start the container you should see neofetch output. If you dont see it, then .bashrc is not created. Create it on your own in the /home/hostuser directory, and add the following lines to it:
 neofetch
