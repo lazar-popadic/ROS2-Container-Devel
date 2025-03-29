@@ -1,1 +1,12 @@
-/home/lazar/.local/bin/ros2-enter
+#!/bin/bash
+
+# Find the first running container with the image "ros2-humble-container"
+CONTAINER_ID=$(podman ps --filter "ancestor=ros2-humble-container" --format "{{.ID}}" | head -n 1)
+
+if [ -z "$CONTAINER_ID" ]; then
+    echo "Error: No running container with image 'ros2-humble-container' found."
+    exit 1
+else
+    echo "Entering container: $CONTAINER_ID"
+    podman exec -it "$CONTAINER_ID" /bin/bash
+fi
