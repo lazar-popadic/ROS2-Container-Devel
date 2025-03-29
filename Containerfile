@@ -17,7 +17,8 @@ WORKDIR /home/hostuser
 ENV SHELL=/bin/bash
 
 # Source ROS in bashrc (persists across container runs)
-RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
+RUN touch ~/.bashrc && \
+    echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
     echo "source /home/hostuser/code/omni-1-ws/install/local_setup.bash" >> ~/.bashrc && \
     echo "neofetch" >> ~/.bashrc && \
