@@ -20,7 +20,7 @@ ENV SHELL=/bin/bash
 RUN touch ~/.bashrc && \
     echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
     echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
-    echo "source /home/hostuser/code/omni-1-ws/install/local_setup.bash" >> ~/.bashrc && \
+    echo "source /home/hostuser/omni-1-ws/install/local_setup.bash" >> ~/.bashrc && \
     echo "neofetch" >> ~/.bashrc && \
     echo "echo 'ROS 2 Humble environment ready!'" >> ~/.bashrc && \
     echo "export WEBOTS_HOME=/usr/local/webots" >> ~/.bashrc && \
