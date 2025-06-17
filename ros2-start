@@ -1,3 +1,21 @@
 #!/bin/bash
 
-podman run -it --rm -v ros2-volume:/home/hostuser --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --env USER="hostuser" --env USERNAME="hostuser" --env HOME="/home/hostuser" --network=host ros2-humble-container
+# Start XWayland if not running
+if ! pgrep -x "Xwayland" > /dev/null; then
+    Xwayland :0 -ac &
+    sleep 1
+fi
+
+# Allow X11 connections
+xhost +local:
+
+podman run -it --rm \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    -v ros2-volume:/home/hostuser \
+    -e DISPLAY=:0 \
+    -e QT_QPA_PLATFORM=xcb \
+    -v /dev/dri:/dev/dri \
+    --security-opt=label=disable \
+    --group-add=video \
+    --network=host \
+    ros2-humble-container
