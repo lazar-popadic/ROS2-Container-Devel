@@ -13,9 +13,10 @@ podman run -it --rm \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v ros2-volume:/home/hostuser \
     -e DISPLAY=:0 \
+    --device=/dev/ttyUSB0 \
     -e QT_QPA_PLATFORM=xcb \
     -v /dev/dri:/dev/dri \
-    --security-opt=label=disable \
+    --security-opt label=disable \
     --group-add=video \
     --network=host \
     ros2-humble-container

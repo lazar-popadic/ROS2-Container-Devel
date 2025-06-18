@@ -32,14 +32,21 @@ ARG GROUP_ID=1000
 RUN groupadd -g ${GROUP_ID} hostuser && \
     useradd -u ${USER_ID} -g ${GROUP_ID} -m hostuser && \
     echo "hostuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/hostuser
-
 USER hostuser
 WORKDIR /home/hostuser
 
+RUN touch /home/hostuser/.bashrc && \
+    echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
+    echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
+    echo "source /home/hostuser/ros381/install/local_setup.bash" >> ~/.bashrc && \
+    echo "neofetch" >> ~/.bashrc && \
+    echo "echo 'ROS 2 Humble environment ready!'" >> ~/.bashrc && \
+    echo "export WEBOTS_HOME=/usr/local/webots" >> ~/.bashrc && \
+    echo "eval \"\$(ssh-agent -s)\"" >> ~/.bashrc
+
 # Configure environment for XWayland
 RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc && \
-    echo "export DISPLAY=:0" >> ~/.bashrc && \
-    echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+    echo "export DISPLAY=:0" >> ~/.bashrc
 
 # Install Webots
 RUN sudo mkdir -p /etc/apt/keyrings && \
