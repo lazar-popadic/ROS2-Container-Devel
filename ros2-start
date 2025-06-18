@@ -9,14 +9,22 @@ fi
 # Allow X11 connections
 xhost +local:
 
+# Prepare device arguments
+device_args=()
+if compgen -G "/dev/ttyUSB*" > /dev/null; then
+    for device in /dev/ttyUSB*; do
+        device_args+=("--device=$device:$device")
+    done
+fi
+
 podman run -it --rm \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v ros2-volume:/home/hostuser \
     -e DISPLAY=:0 \
-    --device=/dev/ttyUSB0 \
     -e QT_QPA_PLATFORM=xcb \
     -v /dev/dri:/dev/dri \
     --security-opt label=disable \
     --group-add=video \
     --network=host \
+    "${device_args[@]}" \
     ros2-humble-container
