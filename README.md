@@ -15,8 +15,8 @@ ros2-stop
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 ### and add it to your account:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
-### Clone the omni-1-ws repository:
-git clone git@github.com:lazar-popadic/omni-1-ws.git
+### Clone the ros381 repository:
+git clone git@github.com:Plus381Robotics/ros381.git
 
 ---
 
