@@ -20,10 +20,4 @@ git clone git@github.com:Plus381Robotics/ros381.git
 
 ---
 
-#### When you start the container you should see neofetch output. If you dont see it, then .bashrc is not created. Create it on your own in the /home/hostuser directory, and add the following lines to it:
-neofetch
-source /opt/ros/humble/setup.bash
-source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-source /home/hostuser/omni-1-ws/install/local_setup.bash
-echo 'ROS 2 Humble environment ready!'
-export WEBOTS_HOME=/usr/local/webots
+#### When you start the container you should see neofetch output. If you dont see it, then .bashrc is not created.
