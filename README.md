@@ -1,7 +1,7 @@
 ### Build a ros2 humble container:
-podman build -t ros2-humble-container -f=Containerfile
+ros2-build-container
 ### Create a persistant podman volume:
-podman volume create ros2-volume
+podman volume create --opt o=uid=1000,gid=1000 ros2-volume
 ### Start the container by running:
 ros2-start
 ### If you need another interactive shell in the same container run:
