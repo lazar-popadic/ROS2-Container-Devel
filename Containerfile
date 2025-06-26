@@ -26,6 +26,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     x11-apps \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Webots and ROS2 packages
+RUN mkdir -p /etc/apt/keyrings && \
+    wget -qO /etc/apt/keyrings/Cyberbotics.asc https://cyberbotics.com/Cyberbotics.asc && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
+    apt-get update && \
+    apt-get install -y webots ros-humble-webots-ros2 ros-humble-joint-state-publisher
+
 # Create user (match your host user IDs)
 ARG USER_ID=1000
 ARG GROUP_ID=1000
@@ -47,10 +54,3 @@ RUN touch /home/hostuser/.bashrc && \
 # Configure environment for XWayland
 RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc && \
     echo "export DISPLAY=:0" >> ~/.bashrc
-
-# Install Webots
-RUN sudo mkdir -p /etc/apt/keyrings && \
-    sudo wget -qO /etc/apt/keyrings/Cyberbotics.asc https://cyberbotics.com/Cyberbotics.asc && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
-    sudo apt-get update && \
-    sudo apt-get install -y webots ros-humble-webots-ros2
