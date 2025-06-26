@@ -31,7 +31,8 @@ RUN mkdir -p /etc/apt/keyrings && \
     wget -qO /etc/apt/keyrings/Cyberbotics.asc https://cyberbotics.com/Cyberbotics.asc && \
     echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
     apt-get update && \
-    apt-get install -y webots ros-humble-webots-ros2 ros-humble-joint-state-publisher
+    apt-get install -y webots ros-humble-webots-ros2 && \
+    apt-get install -y ros-humble-urdf-tutorial ros-humble-joint-state-publisher ros-humble-joint-state-publisher-gui
 
 # Create user (match your host user IDs)
 ARG USER_ID=1000
