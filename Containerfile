@@ -26,12 +26,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     x11-apps \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Webots and ROS2 packages
+# Install Webots
 RUN mkdir -p /etc/apt/keyrings && \
     wget -qO /etc/apt/keyrings/Cyberbotics.asc https://cyberbotics.com/Cyberbotics.asc && \
     echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
     apt-get update && \
-    apt-get install -y webots ros-humble-webots-ros2 && \
+    apt-get install -y webots ros-humble-webots-ros2
+
+# Install other ROS2 packages
+RUN apt-get install -y python3 python3-pip && \
+    git clone --recurse-submodules https://github.com/cyberbotics/urdf2webots.git && \
+    pip install --upgrade --editable urdf2webots && \
     apt-get install -y ros-humble-urdf-tutorial ros-humble-joint-state-publisher ros-humble-joint-state-publisher-gui
 
 # Create user (match your host user IDs)
