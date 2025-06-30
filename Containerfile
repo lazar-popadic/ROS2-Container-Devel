@@ -31,10 +31,11 @@ RUN mkdir -p /etc/apt/keyrings && \
     wget -qO /etc/apt/keyrings/Cyberbotics.asc https://cyberbotics.com/Cyberbotics.asc && \
     echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
     apt-get update && \
-    apt-get install -y webots ros-humble-webots-ros2
+    apt-get install -y webots ros-humble-webots-ros2 && \
+    apt-get update
 
 # Install other ROS2 packages
-RUN apt-get install -y python3 python3-pip && \
+RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools && \
     git clone --recurse-submodules https://github.com/cyberbotics/urdf2webots.git && \
     pip install --upgrade --editable urdf2webots && \
     apt-get install -y ros-humble-urdf-tutorial ros-humble-joint-state-publisher ros-humble-joint-state-publisher-gui
