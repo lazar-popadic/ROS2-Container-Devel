@@ -10,6 +10,19 @@ RUN echo 'keyboard-configuration keyboard-configuration/layout select English (U
     echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections && \
     echo 'locales locales/locales_to_be_generated select en_US.UTF-8 UTF-8' | debconf-set-selections
 
+RUN set -x && \
+    # Clean up any existing ROS keys and sources
+    rm -f /usr/share/keyrings/ros*.gpg && \
+    rm -f /etc/apt/sources.list.d/ros*.list && \
+    # Install required tools
+    apt-get update && apt-get install -y curl gnupg2 && \
+    # Add new key
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    # Add repository (hardcoding jammy for certainty)
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2.list && \
+    # Update
+    apt-get update
+
 # Install X11 dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     xauth \
