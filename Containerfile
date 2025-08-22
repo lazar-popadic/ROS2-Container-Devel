@@ -70,7 +70,7 @@ RUN touch /home/hostuser/.bashrc && \
     echo "neofetch" >> ~/.bashrc && \
     echo "echo 'ROS 2 Humble environment ready!'" >> ~/.bashrc && \
     echo "export WEBOTS_HOME=/usr/local/webots" >> ~/.bashrc && \
-    echo "eval \"\$(ssh-agent -s)\"" >> ~/.bashrc
+    echo "# eval \"\$(ssh-agent -s)\"" >> ~/.bashrc
 
 # Configure environment for XWayland
 RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc && \
