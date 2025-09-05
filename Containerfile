@@ -10,13 +10,13 @@ RUN echo 'keyboard-configuration keyboard-configuration/layout select English (U
     echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections && \
     echo 'locales locales/locales_to_be_generated select en_US.UTF-8 UTF-8' | debconf-set-selections
 
-RUN set -x && \
-    rm -f /usr/share/keyrings/ros*.gpg && \
-    rm -f /etc/apt/sources.list.d/ros*.list && \
-    apt-get update && apt-get install -y curl gnupg2 && \
-    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2.list && \
-    apt-get update
+#RUN set -x && \
+#    rm -f /usr/share/keyrings/ros*.gpg && \
+#    rm -f /etc/apt/sources.list.d/ros*.list && \
+#    apt-get update && apt-get install -y curl gnupg2 && \
+#    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+#    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2.list && \
+#    apt-get update
 
 # Install X11 dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -68,5 +68,4 @@ RUN touch /home/hostuser/.bashrc && \
     echo "# eval \"\$(ssh-agent -s)\"" >> ~/.bashrc
 
 # Configure environment for XWayland
-RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc && \
-    echo "export DISPLAY=:0" >> ~/.bashrc
+RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc
