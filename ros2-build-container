@@ -1,3 +1,3 @@
 #!/bin/bash
 
-podman build -t ros2-humble-container .
+podman build --cgroup-manager=cgroupfs -t ros2-humble-container .
