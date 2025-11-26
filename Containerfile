@@ -12,7 +12,7 @@ RUN echo 'keyboard-configuration keyboard-configuration/layout select English (U
 
 RUN set -x && \
     rm -f /usr/share/keyrings/ros*.gpg && \
-    rm -f /etc/apt/sources.list.d/ros*.list && \
+    rm -rf /etc/apt/sources.list.d/* && \
     apt-get update && apt-get install -y curl gnupg2 && \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2.list && \
@@ -46,6 +46,7 @@ RUN mkdir -p /etc/apt/keyrings && \
 RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools && \
     git clone --recurse-submodules https://github.com/cyberbotics/urdf2webots.git && \
     pip install --upgrade --editable urdf2webots && \
+    pip install pyserial && \
     apt-get install -y ros-humble-urdf-tutorial ros-humble-joint-state-publisher ros-humble-joint-state-publisher-gui ros-humble-nav2-msgs ros-humble-nav-msgs ros-humble-plotjuggler ros-humble-plotjuggler-ros  && \
     apt install -y python3-pybind11 ros-humble-pybind11-vendor
 
@@ -54,6 +55,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 RUN groupadd -g ${GROUP_ID} hostuser && \
     useradd -u ${USER_ID} -g ${GROUP_ID} -m hostuser && \
+    usermod -aG dialout hostuser && \
     echo "hostuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/hostuser
 USER hostuser
 WORKDIR /home/hostuser

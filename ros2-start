@@ -24,6 +24,10 @@ podman run -it --rm \
     -e QT_QPA_PLATFORM=xcb \
     -v /dev/dri:/dev/dri \
     --security-opt label=disable \
+    --device=/dev/ttyUSB0 \
+    --device=/dev/ttyUSB1 \
+    --device=/dev/ttyUSB2 \
+    --device=/dev/ttyUSB3 \
     --group-add=video \
     --network=host \
     "${device_args[@]}" \
