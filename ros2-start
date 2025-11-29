@@ -11,10 +11,26 @@ xhost +local:
 
 # Prepare device arguments
 device_args=()
+
+# Check for ttyUSB devices
 if compgen -G "/dev/ttyUSB*" > /dev/null; then
     for device in /dev/ttyUSB*; do
         device_args+=("--device=$device:$device")
+        echo "Found USB device: $device"
     done
+fi
+
+# Check for ttyACM devices (often used for Arduino, serial adapters, etc.)
+if compgen -G "/dev/ttyACM*" > /dev/null; then
+    for device in /dev/ttyACM*; do
+        device_args+=("--device=$device:$device")
+        echo "Found ACM device: $device"
+    done
+fi
+
+# If no devices found, print message but continue
+if [ ${#device_args[@]} -eq 0 ]; then
+    echo "No ttyUSB or ttyACM devices found. Starting without serial devices."
 fi
 
 podman run -it --rm \
@@ -25,7 +41,6 @@ podman run -it --rm \
     -v /dev/dri:/dev/dri \
     --security-opt label=disable \
     --group-add=keep-groups \
-    --device=/dev/ttyUSB0 \
     --network=host \
     "${device_args[@]}" \
     ros2-humble-container
