@@ -1,74 +1,102 @@
-FROM docker.io/osrf/ros:humble-desktop
+FROM docker.io/osrf/ros:jazzy-desktop
 
-# Set non-interactive mode
+# Set environment variables to avoid interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN=true
 
-# Pre-configure keyboard and other packages that might ask questions
-RUN echo 'keyboard-configuration keyboard-configuration/layout select English (US)' | debconf-set-selections && \
-    echo 'keyboard-configuration keyboard-configuration/variant select English (US)' | debconf-set-selections && \
-    echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections && \
-    echo 'locales locales/locales_to_be_generated select en_US.UTF-8 UTF-8' | debconf-set-selections
+# Update package lists and install basic utilities
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
+    curl \
+    wget \
+    git \
+    vim \
+    nano \
+    htop \
+    net-tools \
+    iputils-ping \
+    build-essential \
+    software-properties-common \
+    apt-utils \
+    sudo \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN set -x && \
-    rm -f /usr/share/keyrings/ros*.gpg && \
-    rm -rf /etc/apt/sources.list.d/* && \
-    apt-get update && apt-get install -y curl gnupg2 && \
-    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2.list && \
-    apt-get update
+# Create ubuntu with home directory
+RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu && \
+    chmod 0440 /etc/sudoers.d/ubuntu
+
+# Create workspace inside home
+RUN mkdir -p /home/ubuntu/ws && \
+    chown -R ubuntu:ubuntu /home/ubuntu/ws
+
+# Set working directory
+WORKDIR /home/ubuntu/ws
+
+# Locale setup
+RUN apt-get update && \
+    apt-get install -y locales && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 # Install X11 dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     xauth \
     libgl1-mesa-dri \
-    libgl1-mesa-glx \
     libxcb-xinput0 \
     libxcb-xtest0 \
     libxkbcommon-x11-0 \
     neofetch \
     neovim \
     btop \
-    wget \
     keyboard-configuration \
     x11-apps \
     && rm -rf /var/lib/apt/lists/*
 
+# # Setup ROS2
+# RUN set -x && \
+#     rm -f /usr/share/keyrings/ros*.gpg && \
+#     rm -rf /etc/apt/sources.list.d/* && \
+#     apt-get update && apt-get install -y curl gnupg2 && \
+#     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2.list && \
+#     apt-get update
+
 # Install Webots
 RUN mkdir -p /etc/apt/keyrings && \
     wget -qO /etc/apt/keyrings/Cyberbotics.asc https://cyberbotics.com/Cyberbotics.asc && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" | sudo tee /etc/apt/sources.list.d/Cyberbotics.list && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/Cyberbotics.asc] https://cyberbotics.com/debian binary-amd64/" > /etc/apt/sources.list.d/Cyberbotics.list && \
     apt-get update && \
-    apt-get install -y webots ros-humble-webots-ros2 && \
-    apt-get update --fix-missing
+    apt-get install -y webots ros-jazzy-webots-ros2
 
 # Install other ROS2 packages
 RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools && \
-    git clone --recurse-submodules https://github.com/cyberbotics/urdf2webots.git && \
-    pip install --upgrade --editable urdf2webots && \
-    pip install pyserial && \
-    apt-get install -y ros-humble-urdf-tutorial ros-humble-joint-state-publisher ros-humble-joint-state-publisher-gui ros-humble-nav2-msgs ros-humble-nav-msgs ros-humble-plotjuggler ros-humble-plotjuggler-ros  && \
-    apt install -y python3-pybind11 ros-humble-pybind11-vendor
-
-# Create user (match your host user IDs)
-ARG USER_ID=1000
-ARG GROUP_ID=1000
-RUN groupadd -g ${GROUP_ID} hostuser && \
-    useradd -u ${USER_ID} -g ${GROUP_ID} -m hostuser && \
-    usermod -aG dialout hostuser && \
-    echo "hostuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/hostuser
-USER hostuser
-WORKDIR /home/hostuser
-
-RUN touch /home/hostuser/.bashrc && \
-    echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
-    echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> ~/.bashrc && \
-    echo "source /home/hostuser/ros381/install/local_setup.bash" >> ~/.bashrc && \
-    echo "neofetch" >> ~/.bashrc && \
-    echo "echo 'ROS 2 Humble environment ready!'" >> ~/.bashrc && \
-    echo "export WEBOTS_HOME=/usr/local/webots" >> ~/.bashrc && \
-    echo "# eval \"\$(ssh-agent -s)\"" >> ~/.bashrc
+    apt-get install -y ros-jazzy-urdf-tutorial ros-jazzy-joint-state-publisher ros-jazzy-joint-state-publisher-gui ros-jazzy-nav2-msgs ros-jazzy-nav-msgs ros-jazzy-plotjuggler ros-jazzy-plotjuggler-ros  && \
+    apt-get install -y python3-pybind11 ros-jazzy-pybind11-vendor python3.12-venv
 
 # Configure environment for XWayland
-RUN echo "export QT_QPA_PLATFORM=xcb" >> ~/.bashrc && \
-    echo "export DISPLAY=:0" >> ~/.bashrc
+RUN echo "export QT_QPA_PLATFORM=xcb" >> /home/ubuntu/.bashrc && \
+    echo "export DISPLAY=:0" >> /home/ubuntu/.bashrc
+
+# Fix ownership AFTER installs
+RUN chown -R ubuntu:ubuntu /home/ubuntu
+
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
+# Switch user
+USER ubuntu
+
+# Python venv
+RUN python3 -m venv /home/ubuntu/venv
+RUN /home/ubuntu/venv/bin/pip install --upgrade pip && \
+    /home/ubuntu/venv/bin/pip install pyserial
+
+RUN echo "source /opt/ros/jazzy/setup.bash" >> /home/ubuntu/.bashrc && \
+    echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" >> /home/ubuntu/.bashrc && \
+    echo "source /home/ubuntu/ws/install/local_setup.bash" >> /home/ubuntu/.bashrc && \
+    echo "echo 'ROS 2 Jazzy environment ready!'" >> /home/ubuntu/.bashrc && \
+    echo "export WEBOTS_HOME=/usr/local/webots" >> /home/ubuntu/.bashrc && \
+    echo "source ~/venv/bin/activate" >> /home/ubuntu/.bashrc
+
+# Set the default command
+CMD ["/bin/bash"]

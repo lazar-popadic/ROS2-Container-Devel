@@ -7,7 +7,7 @@ if ! pgrep -x "Xwayland" > /dev/null; then
 fi
 
 # Allow X11 connections
-xhost +local:
+xhost +local:root
 
 # Prepare device arguments
 device_args=()
@@ -34,13 +34,17 @@ if [ ${#device_args[@]} -eq 0 ]; then
 fi
 
 podman run -it --rm \
+    --name ros2-jazzy-container \
+    -v ./ws:/home/ubuntu/ws:Z \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-    -v ros2-volume:/home/hostuser \
-    -e DISPLAY=:0 \
-    -e QT_QPA_PLATFORM=xcb \
     -v /dev/dri:/dev/dri \
-    --security-opt label=disable \
-    --group-add=keep-groups \
+    -e DISPLAY=$DISPLAY \
+    -e QT_QPA_PLATFORM=xcb \
     --network=host \
+    --security-opt label=disable \
+    --userns=keep-id \
+    --group-add=keep-groups \
     "${device_args[@]}" \
-    ros2-humble-container
+    ros2-jazzy-container
+
+xhost -local:root
