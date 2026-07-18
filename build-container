@@ -1,2 +1,2 @@
 #!/bin/bash
-podman build -t ros2-jazzy-container .
+podman build -t ros2-lyrical-container .

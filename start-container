@@ -34,7 +34,7 @@ if [ ${#device_args[@]} -eq 0 ]; then
 fi
 
 podman run -it --rm \
-    --name ros2-jazzy-container \
+    --name ros2-lyrical-container \
     -v ./ws:/home/ubuntu/ws:Z \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v /dev/dri:/dev/dri \
@@ -45,6 +45,6 @@ podman run -it --rm \
     --userns=keep-id \
     --group-add=keep-groups \
     "${device_args[@]}" \
-    ros2-jazzy-container
+    ros2-lyrical-container
 
 xhost -local:root
